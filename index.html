@@ -5,18 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>It's a pomodoro!</title>
   <style type='text/css'>
-    h1 {
+    h2 {
       text-align: center;
       font-size: 160px;
       font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
       margin-top: 20%;
       color: white;
     }
+
+    footer {
+			position: absolute;
+			bottom: 0;
+			text-align: center;
+			left: -0px;
+			right: -0px;
+		}
   </style>
 </head>
 <body>
 
-  <h1>It's a pomodoro!</h1>
+  <section>
+    <h2>It's a pomodoro!</h2>
+  </section>
 
   <script>
 
@@ -51,7 +61,7 @@
     var green_change = (current_color[1] - next_color[1]) / current_time;
     var blue_change = (current_color[2] - next_color[2]) / current_time;
 
-    let element = document.getElementsByTagName("h1")[0];
+    let element = document.getElementsByTagName("h2")[0];
     let body = document.getElementsByTagName("body")[0];
 
     setInterval(function() {
@@ -81,6 +91,12 @@
     }, 1000); // do this every second
 
   </script>
-
+  <footer>
+    <h1>
+      <a href="https://github.com/pabloriutort/pomodoro" target="_blank">
+        <img src="GitHub-Mark-32px.png">
+      </a>
+    </h1>
+  </footer>
 </body>
 </html>
