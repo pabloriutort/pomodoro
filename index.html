@@ -1,64 +1,86 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style type='text/css'>
-h1 {
-  text-align: center;
-  font-size: 160px;
-  font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-  margin-top: 20%;
-  color: white;
-}
-
-</style>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>It's a pomodoro!</title>
+  <style type='text/css'>
+    h1 {
+      text-align: center;
+      font-size: 160px;
+      font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+      margin-top: 20%;
+      color: white;
+    }
+  </style>
 </head>
 <body>
 
-<h1></h1>
+  <h1>It's a pomodoro!</h1>
 
-<script>
+  <script>
 
-let timing_color = {
-  work: {
-    time: 1500, // 25 min.
-    color: 'red'
-  },
-  long_break:{
-    time: 900, //15 min.
-    color: 'blue'
-  },
-  short_break:{
-    time: 600, // 10 min.
-    color: 'violet'
-  }
-};
+    const timing_color = {
+      work: {
+        time: 1500, // 25 min.
+        color: [255,0,0]  // red
+      },
+      long_break:{
+        time: 900, //15 min.
+        color: [0,0,255]  // blue
+      },
+      short_break:{
+        time: 600, // 10 min.
+        color: [75,0,130]  // indigo
+      }
+    };
 
-let sequence = ['work', 'long_break', 'work', 'short_break'];
+    const sequence = ['work', 'long_break', 'work', 'short_break'];
+    const limit = sequence.length;
+    var index = 0;
+    var mode = sequence[index % limit]; // an index of sequence
+    var next_mode = sequence[(index+1) % limit];
+    var current_time = timing_color[mode]['time'];
 
-var limit = sequence.length;
-var index = 0;
-var mode = sequence[index % limit]; // an index of sequence
-var current = timing_color[mode]['time'];
+    // slice() operation clones the array and returns a reference to a new array
+    var current_color = timing_color[mode]['color'].slice();
+    var next_color = timing_color[next_mode]['color'].slice();
 
-let element = document.getElementsByTagName("h1")[0];
-let body = document.getElementsByTagName("body")[0];
+    //calculate steps to color transitions
+    var red_change = (current_color[0] - next_color[0]) / current_time;
+    var green_change = (current_color[1] - next_color[1]) / current_time;
+    var blue_change = (current_color[2] - next_color[2]) / current_time;
 
-setInterval(function() {
+    let element = document.getElementsByTagName("h1")[0];
+    let body = document.getElementsByTagName("body")[0];
 
-  body.style.backgroundColor = timing_color[mode]['color'];
-  element.innerHTML = Math.floor(current/60);
-  current -= 1;
+    setInterval(function() {
 
-  if (current == 0) {
-    index += 1;
-    mode = sequence[index % limit];
-    current = timing_color[mode]['time'];
-  }
+      // make a colorful transition in body
+      current_color[0] = current_color[0] - red_change;
+      current_color[1] = current_color[1] - green_change;
+      current_color[2] = current_color[2] - blue_change;
+      body.style.backgroundColor = 'rgb(' + current_color.toString() + ')';
 
-}, 1000);
+      // show timing
+      element.innerHTML = Math.floor(current_time/60);
+      current_time -= 1;
 
-</script>
+      //if time's up get next mode and update
+      if (current_time == 0) {
+        index += 1;
+        mode = sequence[index % limit];
+        next_mode = sequence[(index+1) % limit];
+        current_time = timing_color[mode]['time'];
+        current_color = timing_color[mode]['color'].slice();
+        next_color = timing_color[next_mode]['color'].slice();
+        red_change = (current_color[0] - next_color[0]) / current_time;
+        green_change = (current_color[1] - next_color[1]) / current_time;
+        blue_change = (current_color[2] - next_color[2]) / current_time;
+      }
+    }, 1000); // do this every second
+
+  </script>
 
 </body>
 </html>
