@@ -64,6 +64,8 @@
     let element = document.getElementsByTagName("h2")[0];
     let body = document.getElementsByTagName("body")[0];
 
+    document.title = mode;
+
     setInterval(function() {
 
       // make a colorful transition in body
@@ -87,6 +89,8 @@
         red_change = (current_color[0] - next_color[0]) / current_time;
         green_change = (current_color[1] - next_color[1]) / current_time;
         blue_change = (current_color[2] - next_color[2]) / current_time;
+
+        document.title = mode;
       }
     }, 1000); // do this every second
 
