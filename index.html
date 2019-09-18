@@ -64,7 +64,6 @@
     let element = document.getElementsByTagName("h2")[0];
     let body = document.getElementsByTagName("body")[0];
 
-    document.title = mode;
 
     setInterval(function() {
 
@@ -76,6 +75,7 @@
 
       // show timing
       element.innerHTML = Math.floor(current_time/60);
+      document.title = element.innerHTML + " - [" + mode + "]";
       current_time -= 1;
 
       //if time's up get next mode and update
